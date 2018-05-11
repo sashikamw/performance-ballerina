@@ -3,13 +3,9 @@
 The package (**performance-ballerina-distribution-${version}.tar.gz**) built by the distribution maven module is the
  package required for Ballerina performance tests from this repository.
 
-3 ballerina files are present with the package that will be used for testing
+The following scenarios are covered with this ballerina performance testing package
 
- helloworld.bal
-
- passthrough.bal
-
- transformation.bal
+- passthrough.bal
 
 The (**performance-common-distribution-${version}.tar.gz**) package is also required for performance tests.
 
@@ -19,8 +15,26 @@ The scripts in this repository depend on the scripts in
 This package must be extracted in user home directory of the JMeter node and the Ballerina node used for the
  performance tests.
 
-In addition, please make sure to extract the "performance-common" package to all nodes and install Java, JMeter, and SAR
- to all nodes by using scripts provided.
+In addition, please make sure to extract the "performance-common" package to all nodes and install Java, JMeter, and SAR to all nodes by using scripts provided.
+
+### Steps to run performance tests
+
+Following are the high-level steps to run the performance tests.
+
+- Copy the performance-ballerina and performance-common packages to all servers.
+- Build the above packages and copy the xx.tar to the home directory and extract it.
+- Extract the packages in user home directory
+- Download latest Oracle JDK 8 to all servers.
+- Download latest Apache JMeter to all JMeter servers.
+- Download Ballerina distribution to Balleirna server.
+- Install Java in all servers using the install-java.sh script inside java directory.
+- Install 'System Activity Report' in all servers using the install-sar.sh script inside sar directory.
+-  Install 'Apache JMeter' in all JMeter servers using the install-jmeter.sh script inside jmeter directory
+- Setup Ballerina in the ballerina server using setup.sh script inside ballerina-scripts directory.
+- Run the performance test using run-performance-test.sh script inside the jmeter-scripts directory.
+- Use create-summary-csv.sh to generate a summary.csv file from the test results.
+- Use Python scripts (create-charts.py and create-comparison-charts.py) to generate charts from the summary results.
+
 
 See following sections for more details.
 
@@ -33,14 +47,15 @@ Following sections have more details about each script.
 
 #### setup.sh
 
-The `setup.sh` script is the only script you need to run to set up and configure Ballerina. A ballerina distribution
- should be copied to the home directory og the Ballerina node. This script will extract the distribution and copy the
- bal files that will be used to do the performance tests. The name of the ballerina distribution should be given as a
- parameter
-
+The `setup.sh` script is the only script you need to run to set up and configure Ballerina and the netty host mapping. A ballerina distribution
+ should be copied to the home directory of the Ballerina node. This script will extract the distribution and copy the
+ bal files that will be used to do the performance tests. The name of the ballerina distribution and the ip of the netty server should be given as
+ parameters.
+ 
+ 
 How to run:
 
-`./setup.sh ballerina-runtime-0.970.0`
+`./setup.sh ballerina-runtime-0.970.0 192.168.1.1`
 
 #### ballerina-start.sh
 
@@ -54,6 +69,16 @@ How to run:
 
 Inside "jmeter-scripts", directory there are two scripts to run the performance tests and create a summary CSV from the JMeter
  results.
+ 
+#### Setup pre-Requisits for Jmeter
+1) For Jmeter 4.0 it is required to [setup SSL](http://jmeter.apache.org/usermanual/remote-test.html#setup_ssl) . Copy the `rmi_keystore.jks` to all the jmeter client and server nodes.
+
+However, it is also possible the disbale the secure communication between the client and server node by adding the following property to "user.properties" of all the jmeter packs.
+
+```
+server.rmi.ssl.disable=true
+```
+
 
 #### run-performance-test.sh
 
@@ -67,7 +92,23 @@ This script is using ssh config to connect with other nodes from JMeter client a
 Host ballerina
     HostName x.x.x.1
     User ubuntu
-    IdentityFile ~/keys/ballerina.pem
+    IdentityFile /home/ubuntu/ballerina.pem
+
+Host netty
+    HostName x.x.x.2
+    User ubuntu
+    IdentityFile /home/ubuntu/ballerina.pem
+
+Host jmeter1
+    HostName x.x.x.3
+    User ubuntu
+    IdentityFile /home/ubuntu/ballerina.pem
+
+Host jmeter2
+    HostName x.x.x.4
+    User ubuntu
+    IdentityFile /home/ubuntu/ballerina.pem
+
 ```
 
 There are multiple parameters inside the script and the values should be changed as required.
@@ -107,3 +148,5 @@ Copy the script inside the results directory before running.
 How to run:
 
 `./create-summary-csv.sh /path/to/gcviewer*.jar`
+
+
