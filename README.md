@@ -30,8 +30,8 @@ Following are the high-level steps to run the performance tests.
 - Install Java in all servers using the install-java.sh script inside java directory.
 - Install 'System Activity Report' in all servers using the install-sar.sh script inside sar directory.
 -  Install 'Apache JMeter' in all JMeter servers using the install-jmeter.sh script inside jmeter directory
-- Setup Ballerina in the ballerina server using setup.sh script inside ballerina-scripts directory.
-- Run the performance test using run-performance-test.sh script inside the jmeter-scripts directory.
+- Setup Ballerina in the ballerina server using *setup.sh* script inside *ballerina-scripts* directory.
+- Run the performance test using *run-performance-test.sh* script inside the *jmeter-scripts* directory.
 - Use create-summary-csv.sh to generate a summary.csv file from the test results.
 - Use Python scripts (create-charts.py and create-comparison-charts.py) to generate charts from the summary results.
 
