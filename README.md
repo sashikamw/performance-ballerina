@@ -17,6 +17,9 @@ This package must be extracted in user home directory of the JMeter node and the
 
 In addition, please make sure to extract the "performance-common" package to all nodes and install Java, JMeter, and SAR to all nodes by using scripts provided.
 
+Following is the deployment diagram of the setup
+![Ballerina All-in-one Deployment](diagrams/Ballerina_Performance_Test_Deployement.jpg)
+
 ### Steps to run performance tests
 
 Following are the high-level steps to run the performance tests.
