@@ -63,7 +63,7 @@ This script starts the given Ballerina service with the given Java heap size and
 
 How to run:
 
-`./ballerina-start.sh 1G helloworld.bal -e b7a.http.tracelog.console=true`
+`./ballerina-start.sh 1G passthrough.bal -e b7a.http.tracelog.console=true`
 
 ### Apache JMeter
 
