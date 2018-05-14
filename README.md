@@ -158,3 +158,27 @@ This will summarize the JTL file summary, ballerina gc logs and load average det
 GC and load average information about the netty service and jmeter setup can be summarized as below.
 
 `./create-summary-csv.sh /path/to/gcviewer*.jar true`
+
+
+#### Create charts
+
+Use the given python scripts to generate the charts using the above obtained sumary results. The "Python" scripts uses following modules to visualize data.
+
+- pandas
+- matplotlib
+- seaborn
+
+
+Install these packages to python. These scripts were verified in python 3.6 version. 
+
+Also if the python scripts are executed in the server environment include the following line at the top of the python scripts as it is requred to restrict Matplotlib using Xwindows as the backend when generating the charts.
+
+```
+import matplotlib
+matplotlib.use('Agg')
+```
+
+Copy the 'ballerinachart.py' and 'create-charts.py' file inside the results directory and execute the python script.
+
+`python create-charts.py`
+
