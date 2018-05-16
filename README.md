@@ -6,6 +6,7 @@ The package (**performance-ballerina-distribution-${version}.tar.gz**) built by 
 The following scenarios are covered with this ballerina performance testing package
 
 - passthrough.bal
+- http_passthrough.bal
 
 The (**performance-common-distribution-${version}.tar.gz**) package is also required for performance tests.
 
