@@ -132,6 +132,7 @@ api_path | The api path of the ballerina service to which requests should be sen
 ballerina_ssh_host | The ssh host for the Ballerina node.
 test_duration | Duration of the test in seconds.
 warmup_time | The warmup time in minutes. This is used for JTL Splitter, which is from `performance-common`
+payload_type | The payload type that should be used ex: ARRAY payload, Object payload etc
 
 After changing parameters, the performance tests can be started from the script in the JMeter node.
  It's recommended to run the tests in `nohup` mode.
