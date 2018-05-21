@@ -8,6 +8,7 @@ The following scenarios are covered with this ballerina performance testing pack
 - passthrough.bal
 - https_passthrough.bal
 - transformation.bal
+- https_transformation.bal 
 
 The (**performance-common-distribution-${version}.tar.gz**) package is also required for performance tests.
 
