@@ -69,11 +69,11 @@ def save_multi_columns_categorical_charts(df, chart, columns, y, hue, title, sin
     g = sns.factorplot(x="Concurrent Users", y=y,
                        hue=hue, col=col,
                        data=df_results, kind=kind,
-                       size=5, aspect=1, col_wrap=2, legend=False)
+                       size=5, aspect=1, col_wrap=4, legend=False)
     for ax in g.axes.flatten():
         ax.yaxis.set_major_formatter(
             tkr.FuncFormatter(lambda y_value, p: "{:,}".format(y_value)))
-    plt.subplots_adjust(top=0.9, left=0.1)
+    plt.subplots_adjust(top=0.8, left=0.1)
     g.fig.suptitle(title)
     plt.legend(frameon=True)
     if single_statistic:
