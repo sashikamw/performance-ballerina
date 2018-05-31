@@ -80,7 +80,7 @@ Inside "jmeter-scripts", directory there are two scripts to run the performance 
 #### Setup pre-Requisits for Jmeter
 For Jmeter 4.0 it is required to [setup SSL](http://jmeter.apache.org/usermanual/remote-test.html#setup_ssl) . Copy the `rmi_keystore.jks` to all the jmeter client and server nodes.
 
-However, it is also possible the disbale the secure communication between the client and server node by adding the following property to "user.properties" of all the jmeter packs.
+However, it is also possible the disbale the secure communication between the client and server node by adding the following property to "jmeter.properties" of all the jmeter packs.
 
 ```
 server.rmi.ssl.disable=true
