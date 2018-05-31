@@ -9,6 +9,7 @@ The following scenarios are covered with this ballerina performance testing pack
 - https_passthrough.bal
 - transformation.bal
 - https_transformation.bal 
+- http2_https_passthrough.bal
 
 The (**performance-common-distribution-${version}.tar.gz**) package is also required for performance tests.
 
@@ -86,6 +87,15 @@ However, it is also possible the disbale the secure communication between the cl
 server.rmi.ssl.disable=true
 ```
 
+##### HTTP2 sampler setup with Jmeter
+By default HTTP2 sampler is not supported with Jmeter. With Jmeter 4.0 onwards we can use [http2 plugin] (https://github.com/Blazemeter/jmeter-bzm-plugins/tree/master/http2) for Jmeter to use the HTTP2 sampler to verify HTTP2 scenarios.
+
+Follow the below pre requisite to setup the plugin.
+1. Setup **alpn-boot** in you setup and configure the path in **jmeter** by editing JVM_ARGS.
+2. Install Jmeter Plugin Manager
+3. Install HTTP2 sampler using the plugin manager
+
+Note - Make sure to use the correct alpn-boot jar depending on your Java version.
 
 #### run-performance-test.sh
 
