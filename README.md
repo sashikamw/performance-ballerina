@@ -196,3 +196,11 @@ Copy the 'ballerinachart.py' and 'create-charts.py' file inside the results dire
 
 `python create-charts.py`
 
+##### Comparing charts
+Create charts to compare the results of multiple summary.csv files. The script accepts the summary.csv files along with a name to identify the summary.csv file.
+
+For example
+```
+python create-comparison-charts.py summary_passthrough.csv "HTTP Passthrough" summary_https_passthrough.csv "HTTPS Passthrough"
+```
+
