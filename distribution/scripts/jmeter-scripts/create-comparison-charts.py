@@ -16,6 +16,9 @@
 # ----------------------------------------------------------------------------
 # Create comparison charts from two summary.csv files
 # ----------------------------------------------------------------------------
+import matplotlib
+matplotlib.use('Agg')
+
 import sys
 
 import pandas as pd
@@ -88,7 +91,7 @@ def read_summary_csv_files():
         print("Reading " + summary_files[i] + " with name " + names[i] + " to merge and append")
         df_read = pd.read_csv(summary_files[i])
         # Filter errors
-        df_read = df_read.loc[df_merge['Error Count'] < 100]
+        df_read = df_read.loc[df_read['Error Count'] < 100]
         if i == summary_count - 1:
             # Add suffixes to new right columns. Add suffixes to left columns using the first summary name
             suffixes = [add_suffix('', names[0]), add_suffix('', names[i])]
@@ -116,14 +119,14 @@ def save_lmplots(df_all):
     xcolumns = ['Message Size (Bytes)', 'Sleep Time (ms)', 'Concurrent Users']
     xcharts = ['message_size', 'sleep_time', 'concurrent_users']
     ycolumns = ['Throughput', 'Average (ms)', 'Max (ms)', '90th Percentile (ms)', '95th Percentile (ms)',
-                '99th Percentile (ms)', 'API Manager GC Throughput (%)', 'API Manager Load Average - Last 1 minute',
-                'API Manager Load Average - Last 5 minutes', 'API Manager Load Average - Last 15 minutes']
+                '99th Percentile (ms)', 'Ballerina GC Throughput (%)', 'Ballerina Load Average - Last 1 minute',
+                'Ballerina Load Average - Last 5 minutes', 'Ballerina Load Average - Last 15 minutes']
     ycharts = ['lmplot_throughput', 'lmplot_average_time', 'lmplot_max_time', 'lmplot_p90', 'lmplot_p95', 'lmplot_p99',
                'lmplot_gc_throughput', 'lmplot_loadavg_1', 'lmplot_loadavg_5', 'lmplot_loadavg_15']
     ylabels = ['Throughput (Requests/sec)', 'Average Response Time (ms)', 'Maximum Response Time (ms)',
-               '90th Percentile (ms)', '95th Percentile (ms)', '99th Percentile (ms)', 'API Manager GC Throughput (%)',
-               'API Manager Load Average - Last 1 minute', 'API Manager Load Average - Last 5 minutes',
-               'API Manager Load Average - Last 15 minutes']
+               '90th Percentile (ms)', '95th Percentile (ms)', '99th Percentile (ms)', 'Ballerina GC Throughput (%)',
+               'Ballerina Load Average - Last 1 minute', 'Ballerina Load Average - Last 5 minutes',
+               'Ballerina Load Average - Last 15 minutes']
 
     for ycolumn, ylabel, ychart in zip(ycolumns, ylabels, ycharts):
         for xcolumn, xchart in zip(xcolumns, xcharts):
@@ -146,7 +149,7 @@ def save_point_plots(df_all):
             title_suffix = ' vs Concurrent Users for ' + ballerinachart.format_bytes(
                 message_size) + ' messages with ' + ballerinachart.format_time(sleep_time) + ' backend delay'
             ycolumns = ['Throughput', 'Average (ms)', 'Max (ms)', '90th Percentile (ms)', '95th Percentile (ms)',
-                        '99th Percentile (ms)', 'API Manager GC Throughput (%)']
+                        '99th Percentile (ms)', 'Ballerina GC Throughput (%)']
             charts = ['throughput', 'average_time', 'max_time', 'p90', 'p95', 'p99', 'gc_throughput']
             ylabels = ['Throughput (Requests/sec)', 'Average Response Time (ms)', 'Maximum Response Time (ms)',
                        '90th Percentile (ms)', '95th Percentile (ms)', '99th Percentile (ms)', 'GC Throughput (%)']
@@ -186,31 +189,31 @@ def save_comparison_plots(df):
 
     for sleep_time in unique_sleep_times_in_df:
         save_multi_columns_categorical_charts(df, "comparison_thrpt", sleep_time, ['Throughput'],
-                                              "Throughput (Requests/sec)", "API Manager",
+                                              "Throughput (Requests/sec)", "Ballerina",
                                               "Throughput vs Concurrent Users for " + str(
                                                   sleep_time) + "ms backend delay")
         save_multi_columns_categorical_charts(df, "comparison_avgt", sleep_time, ['Average (ms)'],
-                                              "Average Response Time (ms)", "API Manager",
+                                              "Average Response Time (ms)", "Ballerina",
                                               "Average Response Time vs Concurrent Users for " + str(
                                                   sleep_time) + "ms backend delay")
         save_multi_columns_categorical_charts(df, "comparison_response_time", sleep_time,
                                               ['90th Percentile (ms)', '95th Percentile (ms)',
                                                '99th Percentile (ms)'],
-                                              "Response Time (ms)", "API Manager",
+                                              "Response Time (ms)", "Ballerina",
                                               "Response Time Percentiles for " + str(sleep_time) + "ms backend delay",
                                               kind='bar')
         save_multi_columns_categorical_charts(df, "comparison_loadavg", sleep_time,
-                                              ['API Manager Load Average - Last 1 minute',
-                                               'API Manager Load Average - Last 5 minutes',
-                                               'API Manager Load Average - Last 15 minutes'],
-                                              "Load Average", "API Manager",
+                                              ['Ballerina Load Average - Last 1 minute',
+                                               'Ballerina Load Average - Last 5 minutes',
+                                               'Ballerina Load Average - Last 15 minutes'],
+                                              "Load Average", "Ballerina",
                                               "Load Average with " + str(sleep_time) + "ms backend delay")
         save_multi_columns_categorical_charts(df, "comparison_network", sleep_time,
                                               ['Received (KB/sec)', 'Sent (KB/sec)'],
                                               "Network Throughput (KB/sec)", "Network",
                                               "Network Throughput with " + str(sleep_time) + "ms backend delay")
-        save_multi_columns_categorical_charts(df, "comparison_gc", sleep_time, ['API Manager GC Throughput (%)'],
-                                              "GC Throughput (%)", "API Manager",
+        save_multi_columns_categorical_charts(df, "comparison_gc", sleep_time, ['Ballerina GC Throughput (%)'],
+                                              "GC Throughput (%)", "Ballerina",
                                               "GC Throughput with " + str(sleep_time) + "ms backend delay")
         for message_size in unique_message_sizes_in_df:
             chart_suffix = '_' + ballerinachart.format_time(sleep_time) + '_' + message_size
@@ -221,10 +224,10 @@ def save_comparison_plots(df):
                           'Response Time (ms)', 'Summary',
                           "Response Time Percentiles" + title_suffix)
             save_bar_plot(df, 'loadavg' + chart_suffix, sleep_time, message_size,
-                          ['API Manager Load Average - Last 1 minute',
-                           'API Manager Load Average - Last 5 minutes',
-                           'API Manager Load Average - Last 15 minutes'],
-                          "Load Average", "API Manager",
+                          ['Ballerina Load Average - Last 1 minute',
+                           'Ballerina Load Average - Last 5 minutes',
+                           'Ballerina Load Average - Last 15 minutes'],
+                          "Load Average", "Ballerina",
                           "Load Average" + title_suffix)
 
 
@@ -273,9 +276,9 @@ def save_single_comparison_plots(df):
     charts = ['thrpt', 'avgt', 'response_time', 'loadavg', 'network', 'gc']
     # Removed '90th Percentile (ms)'. Too much data points
     comparison_columns = [['Throughput'], ['Average (ms)'], ['95th Percentile (ms)', '99th Percentile (ms)'],
-                          ['API Manager Load Average - Last 1 minute', 'API Manager Load Average - Last 5 minutes',
-                           'API Manager Load Average - Last 15 minutes'], ['Received (KB/sec)', 'Sent (KB/sec)'],
-                          ['API Manager GC Throughput (%)']]
+                          ['Ballerina Load Average - Last 1 minute', 'Ballerina Load Average - Last 5 minutes',
+                           'Ballerina Load Average - Last 15 minutes'], ['Received (KB/sec)', 'Sent (KB/sec)'],
+                          ['Ballerina GC Throughput (%)']]
     ycolumns = ['Throughput (Requests/sec)', 'Average Response Time (ms)', 'Response Time (ms)', 'Load Average',
                 'Network Throughput (KB/sec)', 'GC Throughput (%)']
     title_prefixes = ['Throughput', 'Average Response Time', 'Response Time Percentiles', 'Load Average',
@@ -284,7 +287,7 @@ def save_single_comparison_plots(df):
     for chart, columns, y, title_prefix, plot_kind in zip(charts, comparison_columns, ycolumns, title_prefixes,
                                                           plot_kinds):
         save_single_comparison_plots_by_sleep_time(df_merge, chart_prefix + chart, unique_message_sizes, columns, y,
-                                                   'API Manager', title_prefix + ' vs Concurrent Users', kind=plot_kind)
+                                                   'Ballerina', title_prefix + ' vs Concurrent Users', kind=plot_kind)
 
 
 if __name__ == "__main__":
