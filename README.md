@@ -10,6 +10,7 @@ The following scenarios are covered with this ballerina performance testing pack
 - transformation.bal
 - https_transformation.bal 
 - http2_https_passthrough.bal
+- websocket.bal
 
 The (**performance-common-distribution-${version}.tar.gz**) package is also required for performance tests.
 
@@ -97,6 +98,11 @@ Follow the below pre requisite to setup the plugin.
 
 Note - Make sure to use the correct alpn-boot jar depending on your Java version.
 
+##### Websocket sampler setup with Jmeter
+1. Install Jmeter Plugin Manager
+3. Install Web socket sampler using the plugin manager
+
+**Important** - It is also possible to use the Pre configured Jmeter pack in this repo. (This was created for Apache Jmeter 4.0 version)
 #### run-performance-test.sh
 
 The `run-performance-test.sh` script runs the performance tests for different test scenarios. This script must be used
@@ -138,8 +144,12 @@ ballerina_files | The different ballerina files to be run. This is an array.
 ballerina_flags | The different environment parameters to configure the ballerina service.
 ballerina_flags_name | The symbolic name given to each ballerina_flag. The array size must be same as the ballerina_flags array.
 ballerina_heap_size | The heap size to be used to run the ballerina service.
+backend_sleep_time | The backend sleep times that needs to configured. This is in millisecondsnetty_port
+jmeter1_host | The hostname or IP of the JMeter Server 01
+jmeter2_host | The hostname or IP of the JMeter Server 02
 ballerina_host | The hostname or IP of the Ballerina node.
 api_path | The api path of the ballerina service to which requests should be sent.
+websocket_path | The web socket service path of the ballerina service to which requests should be sent.
 ballerina_ssh_host | The ssh host for the Ballerina node.
 test_duration | Duration of the test in seconds.
 warmup_time | The warmup time in minutes. This is used for JTL Splitter, which is from `performance-common`
